@@ -1,22 +1,69 @@
-import { Button, Input } from '@chakra-ui/react';
+import { Button, HStack, Input, VStack } from '@chakra-ui/react';
 import React, { useState } from 'react'
 
 const Subtraction = () => {
-  const [firstNumber, setFirstNumber] = useState(0);
-  const [secondNumber, setSecondNumber] = useState(0);
+  // TODO: add a toggle button to allow negative results if turned off firstNumber should be greater than secondNumber
   const getRandomNumber = (max: number) => {
     return Math.floor(Math.random() * max);
   }
+  const [firstNumber, setFirstNumber] = useState(getRandomNumber(10));
+  const [secondNumber, setSecondNumber] = useState(getRandomNumber(10));
+  const [inputValue, setInputValue] = useState("");
+
+  const handleClick = () => {
+    // verify answer first
+    if (inputValue === (firstNumber - secondNumber).toString()) {
+      // TODO: show some message the answer was correct
+      console.log('correct answer');
+
+      // change numbers only when the answer is correct
+      changeNumbers();
+    }
+    else {
+      // TODO: show some message answer was incorrect
+      console.log('wrong answer');
+    }
+  };
+
   const changeNumbers = () => {
     setFirstNumber(getRandomNumber(10));
     setSecondNumber(getRandomNumber(10));
   }
+
+  const handleKeyDown = (e : React.KeyboardEvent) => {
+    // if Enter key is pressed, click the check button
+    if (e.code === 'Enter') {
+      setInputValue("");
+      handleClick();
+    }
+
+  }
   return (
-    <>
-    <Button onClick={changeNumbers}>Start/next</Button>
-    <p>{firstNumber} - {secondNumber} = ? </p>
-    <Input placeholder='your ans?'></Input>
-    </>
+    <VStack>
+      <p>
+        {firstNumber} - {secondNumber} = ?
+      </p>
+
+      <HStack>
+        <Input
+          type="number"
+          placeholder="write here"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          onKeyDown={handleKeyDown}
+          borderRadius={20}
+        />
+        <Button
+          isDisabled={!inputValue}
+          onClick={() => {
+            handleClick();
+            setInputValue("");
+          }}
+        >
+          Check
+        </Button>
+      </HStack>
+    </VStack>
   )
 }
 

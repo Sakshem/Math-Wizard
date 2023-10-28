@@ -1,5 +1,5 @@
-import { Button, HStack, Input, NumberInput, NumberInputField, VStack } from '@chakra-ui/react';
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { Button, HStack, Input, VStack } from '@chakra-ui/react';
+import { useState } from 'react'
 
 const Addition = () => {
   const getRandomNumber = (max: number) => {
@@ -7,51 +7,65 @@ const Addition = () => {
   }
   const [firstNumber, setFirstNumber] = useState(getRandomNumber(10));
   const [secondNumber, setSecondNumber] = useState(getRandomNumber(10));
-  const [inputValue, setInputValue] = useState('');
-  const ref = useRef<HTMLInputElement>(null);
+  const [inputValue, setInputValue] = useState("");
 
-  const handleClick = (e : any) => {
+  const handleClick = () => {
+
     // verify answer first
-    if (ref.current) {
-        console.log('ref.current.value: ' + ref.current.value);
-        console.log('input.value ' + inputValue);
-        if (inputValue === (firstNumber + secondNumber).toString()) {
-          // if (ref.current.value === (firstNumber + secondNumber).toString()) {
-            console.log('correct ans!');
-            // ref.current.value = '';
-            console.log(inputValue);
-        }
+    if (inputValue === (firstNumber + secondNumber).toString()) {
+      // TODO: show some message the answer was correct
+      console.log('correct answer');
+
+      // change numbers only when the answer is correct
+      changeNumbers();
     }
-
-    // change numbers for the next question
-    changeNumbers();
-  }
-
-//   useEffect(() => {
-//     clearInputField();
-//   }, [clearInputField]);
-//   const clearInputField = useCallback(async (setInputValue, inputValue) => {await setInputValue("")},[inputValue, setInputValue])
+    else {
+      // TODO: show some message answer was incorrect
+      console.log('wrong answer');
+    }
+  };
 
   const changeNumbers = () => {
     setFirstNumber(getRandomNumber(10));
     setSecondNumber(getRandomNumber(10));
   }
 
+  const handleKeyDown = (e : React.KeyboardEvent) => {
+    // if Enter key is pressed, click the check button
+    if (e.code === 'Enter') {
+      setInputValue("");
+      handleClick();
+    }
+
+  }
 
   return (
     <VStack>
-    <p>{firstNumber} + {secondNumber} = ? </p>
-    <HStack>
-    <NumberInput>
-        <NumberInputField ref={ref} value={inputValue} onChange={(e) => setInputValue(e.target.value)} borderRadius={20}/>
-        {/* <NumberInputField ref={ref} borderRadius={20} value={ref.current?.value}/> */}
-    </NumberInput>
+      <p>
+        {firstNumber} + {secondNumber} = ?
+      </p>
 
-    <Button onClick={handleClick}>Check ans</Button>
-    </HStack>
-    {/* <Button onClick={changeNumbers}>Next</Button> */}
+      <HStack>
+        <Input
+          type="number"
+          placeholder="write here"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          onKeyDown={handleKeyDown}
+          borderRadius={20}
+        />
+        <Button
+          isDisabled={!inputValue}
+          onClick={ () => {
+            handleClick();
+            setInputValue("");
+          }}
+        >
+          Check
+        </Button>
+      </HStack>
     </VStack>
-  )
+  );
 }
 
 export default Addition
