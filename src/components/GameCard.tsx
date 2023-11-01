@@ -5,9 +5,10 @@ import Subtraction from './Subtraction';
 import Multiplication from './Multiplication';
 import Division from './Division';
 interface Props {
-    game: String
+    game: string
+    range: string;
 }
-const GameCard = ({game} : Props) => {
+const GameCard = ({game, range} : Props) => {
   const addition = 'add';
   const subtraction = 'subtract';
   const multiplication = 'multiply';
@@ -17,21 +18,21 @@ const GameCard = ({game} : Props) => {
       <h2>Guess the output</h2>
       {game == addition && 
       <CardBody>
-        <Addition></Addition>
+        <Addition range={range}></Addition>
       </CardBody>
       }
       {game == subtraction && 
       <CardBody>
-        <Subtraction></Subtraction>
+        <Subtraction range={range}></Subtraction>
       </CardBody>
       }
       {game == multiplication && 
       <CardBody>
-        <Multiplication></Multiplication>
+        <Multiplication range={range}></Multiplication>
       </CardBody>}
       {game == division && 
       <CardBody>
-        <Division></Division>
+        <Division range={range}></Division>
       </CardBody>}
     </Card>
   );
