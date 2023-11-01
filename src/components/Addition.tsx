@@ -30,7 +30,6 @@ const Addition = ({range} : Props) => {
 
     // verify answer first
     if (inputValue === (firstNumber + secondNumber).toString()) {
-      // TODO: show some message the answer was correct
       console.log('correct answer');
       setShowNotification({show: true, message: "correct!", soundEffectPath: correctSoundPath});
 
@@ -42,7 +41,6 @@ const Addition = ({range} : Props) => {
       changeNumbers();
     }
     else {
-      // TODO: show some message answer was incorrect
       console.log('wrong answer');
       setShowNotification({show: true, message: "Incorrect!", soundEffectPath: incorrectSoundPath});
 
