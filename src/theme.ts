@@ -18,6 +18,12 @@ const theme = extendTheme({
             800: '#121212',
             900: '#111'
         }
-    }
+    },
+    breakpoints: {
+        sm: "30em", // Small screens (e.g., mobile)
+        md: "48em", // Medium screens (e.g., tablets)
+        lg: "62em", // Large screens (e.g., laptops)
+        xl: "80em", // Extra large screens (e.g., desktops)
+    },
 });
 export default theme;

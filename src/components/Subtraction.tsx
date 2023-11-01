@@ -1,5 +1,5 @@
-import { Button, HStack, Input, VStack } from '@chakra-ui/react';
-import React, { useState } from 'react'
+import { Button, HStack, Input, VStack, extendTheme } from '@chakra-ui/react';
+import React, { ReactNode, useState } from 'react'
 import Notification from './Notification';
 import correctSoundPath from '/audio/correct-6033.mp3';
 import incorrectSoundPath from '/audio/wrong-47985.mp3';

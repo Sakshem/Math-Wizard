@@ -7,12 +7,19 @@ interface Props {
 }
 const GameCardContainer = ({gameMode, range} : Props) => {
   return (
-    <>
-    <Box width='100%' borderRadius={10} overflow='hidden' justifyContent='center' alignItems='center'>
+    <Box
+      width="100%"
+      height="74vh"
+      borderRadius={{base: 0, md: 10}}
+      overflow="hidden"
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      padding={{base: '1rem', md: '2rem'}}
+    >
         <GameCard game={gameMode} range={range}></GameCard>
     </Box>
-    </>
-  )
+  );
 }
 
 export default GameCardContainer
