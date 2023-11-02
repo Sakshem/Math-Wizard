@@ -3,6 +3,7 @@ interface Props2 {
     showNotification: {show: boolean, message: string, soundEffectPath: string };
 }
 const Notification = ({showNotification} : Props2) => {
+  //TODO: make the message notification better
   const {show, message, soundEffectPath} = showNotification;
   useEffect(() => {
     if (show) {

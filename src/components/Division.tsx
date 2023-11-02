@@ -1,5 +1,5 @@
-import { Button, HStack, Input, VStack } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react'
+import { Button, HStack, Input, VStack, Text } from '@chakra-ui/react';
+import React, { useEffect, useRef, useState } from 'react'
 import Notification from './Notification';
 import correctSoundPath from '/audio/correct-6033.mp3';
 import incorrectSoundPath from '/audio/wrong-47985.mp3';
@@ -26,6 +26,8 @@ const Division = ({range}: Props) => {
     message: "",
     soundEffectPath: "",
   });
+
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     // new
@@ -73,6 +75,13 @@ const Division = ({range}: Props) => {
         setShowNotification((prev) => ({...prev, show: false}));
       }, 500);
     }
+    // Delay resetting input and focusing to keep the keyboard open
+    setTimeout(() => {
+      setInputValue("");
+      if (inputRef.current)
+        inputRef.current.focus(); // Set focus on the input field
+
+    }, 100);
   };
 
   const changeNumbers = () => {
@@ -90,12 +99,12 @@ const Division = ({range}: Props) => {
 
   return (
     <VStack>
-      <p>
-        {firstNumber} &divide; {secondNumber} = ?
-      </p>
-
+      <Text fontSize={["16px", "24px"]}>
+          {firstNumber} &divide; {secondNumber} = ?
+      </Text>
       <HStack>
         <Input
+          ref={inputRef}
           type="number"
           placeholder="write here"
           value={inputValue}

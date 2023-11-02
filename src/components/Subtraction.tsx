@@ -1,5 +1,5 @@
-import { Button, HStack, Input, VStack, extendTheme } from '@chakra-ui/react';
-import React, { ReactNode, useState } from 'react'
+import { Button, HStack, Input, Switch, VStack, Text, Grid } from '@chakra-ui/react';
+import React, { useEffect, useRef, useState } from 'react'
 import Notification from './Notification';
 import correctSoundPath from '/audio/correct-6033.mp3';
 import incorrectSoundPath from '/audio/wrong-47985.mp3';
@@ -18,13 +18,24 @@ const Subtraction = ({range}: Props) => {
     return Math.floor(Math.random() * max);
   }
   const [firstNumber, setFirstNumber] = useState(getRandomNumber(parseInt(range)));
-  const [secondNumber, setSecondNumber] = useState(getRandomNumber(parseInt(range)));
+  // const [secondNumber, setSecondNumber] = useState(getRandomNumber(parseInt(range)));
   const [inputValue, setInputValue] = useState("");
   const [showNotification, setShowNotification] = useState({
     show: false,
     message: "",
     soundEffectPath: "",
   });
+  const [allowNegative, setAllowNegative] = useState(false);
+  const [secondNumber, setSecondNumber] = useState(0); // Initialize to 0
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (!allowNegative) {
+      setSecondNumber(getRandomNumber(firstNumber));
+    } else {
+      setSecondNumber(getRandomNumber(parseInt(range)));
+    }
+  }, [firstNumber, allowNegative, range]);
 
   const handleClick = () => {
     // verify answer first
@@ -48,11 +59,27 @@ const Subtraction = ({range}: Props) => {
         setShowNotification((prev) => ({...prev, show: false}));
       }, 500);
     }
+
+    // Delay resetting input and focusing to keep the keyboard open
+    setTimeout(() => {
+      setInputValue("");
+      if (inputRef.current)
+        inputRef.current.focus(); // Set focus on the input field
+
+    }, 100);
   };
 
+
   const changeNumbers = () => {
-    setFirstNumber(getRandomNumber(parseInt(range)));
-    setSecondNumber(getRandomNumber(parseInt(range)));
+    const newFirstNumber = getRandomNumber(parseInt(range));
+    let newSecondNumber;
+    if (allowNegative) {
+      newSecondNumber = getRandomNumber(parseInt(range));
+    } else {
+      newSecondNumber = getRandomNumber(newFirstNumber);
+    }
+    setFirstNumber(newFirstNumber);
+    setSecondNumber(newSecondNumber);
   }
 
   const handleKeyDown = (e : React.KeyboardEvent) => {
@@ -62,15 +89,32 @@ const Subtraction = ({range}: Props) => {
       handleClick();
     }
 
-  }
+  };
   return (
-    <VStack>
-      <p>
-        {firstNumber} - {secondNumber} = ?
-      </p>
-
+    <VStack align="center" spacing={4} alignItems="center" justifyContent="center">
+      {/* <Box display="flex" justifyContent="flex-end" width="100%" paddingRight={["10px", "20px"]}>
+      </Box> */}
+      <Grid
+        templateColumns={["1fr auto", "1fr auto"]}
+        alignItems="center"
+        gap={["2", "-2"]}
+        width="100%"
+      >
+        <Text fontSize={["16px", "24px"]}>
+          {firstNumber} - {secondNumber} = ?
+        </Text>
+        <Switch
+          isChecked={allowNegative}
+          onChange={() => setAllowNegative(!allowNegative)}
+          colorScheme="teal"
+          size="sm"
+        >
+          Allow -ve
+        </Switch>
+      </Grid>
       <HStack>
         <Input
+          ref={inputRef}
           type="number"
           placeholder="write here"
           value={inputValue}
@@ -90,7 +134,7 @@ const Subtraction = ({range}: Props) => {
       </HStack>
       <Notification showNotification={showNotification} />
     </VStack>
-  )
+  );
 }
 
 export default Subtraction

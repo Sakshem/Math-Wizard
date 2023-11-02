@@ -1,5 +1,5 @@
-import { Button, HStack, Input, VStack } from '@chakra-ui/react';
-import { useState } from 'react'
+import { Button, HStack, Input, VStack, Text } from '@chakra-ui/react';
+import { useRef, useState } from 'react'
 import Notification from './Notification';
 import correctSoundPath from '/audio/correct-6033.mp3';
 import incorrectSoundPath from '/audio/wrong-47985.mp3';
@@ -26,28 +26,43 @@ const Addition = ({range} : Props) => {
     soundEffectPath: "",
   });
 
+  const inputRef = useRef<HTMLInputElement>(null);
   const handleClick = () => {
 
     // verify answer first
     if (inputValue === (firstNumber + secondNumber).toString()) {
-      console.log('correct answer');
-      setShowNotification({show: true, message: "correct!", soundEffectPath: correctSoundPath});
+      console.log("correct answer");
+      setShowNotification({
+        show: true,
+        message: "correct!",
+        soundEffectPath: correctSoundPath,
+      });
 
       // set a timeout to reset showNotification after 1 second
       setTimeout(() => {
-        setShowNotification((prev) => ({...prev, show: false}));
+        setShowNotification((prev) => ({ ...prev, show: false }));
       }, 500);
       // change numbers only when the answer is correct
       changeNumbers();
-    }
-    else {
-      console.log('wrong answer');
-      setShowNotification({show: true, message: "Incorrect!", soundEffectPath: incorrectSoundPath});
+    } else {
+      console.log("wrong answer");
+      setShowNotification({
+        show: true,
+        message: "Incorrect!",
+        soundEffectPath: incorrectSoundPath,
+      });
 
       setTimeout(() => {
-        setShowNotification((prev) => ({...prev, show: false}));
+        setShowNotification((prev) => ({ ...prev, show: false }));
       }, 500);
     }
+    // Delay resetting input and focusing to keep the keyboard open
+    setTimeout(() => {
+      setInputValue("");
+      if (inputRef.current)
+        inputRef.current.focus(); // Set focus on the input field
+
+    }, 100);
   };
 
   const changeNumbers = () => {
@@ -61,17 +76,15 @@ const Addition = ({range} : Props) => {
       setInputValue("");
       handleClick();
     }
-
   }
-
   return (
     <VStack>
-      <p>
-        {firstNumber} + {secondNumber} = ?
-      </p>
-
+      <Text fontSize={["16px", "24px"]}>
+          {firstNumber} + {secondNumber} = ?
+      </Text>
       <HStack>
         <Input
+          ref={inputRef}
           type="number"
           placeholder="write here"
           value={inputValue}
