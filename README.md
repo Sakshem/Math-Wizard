@@ -57,4 +57,4 @@ Before you start, make sure you have the following prerequisites installed on yo
 
     This will stop and remove the containers, but it will not delete the images and volumes. Use `docker-compose down -v` to remove volumes as well.
 
-This README section provides a basic setup guide for building the game-hub project using Docker Compose.
+This README section provides a basic setup guide for building the Math-Wizard project using Docker Compose.
