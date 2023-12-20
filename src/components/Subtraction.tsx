@@ -41,7 +41,7 @@ const Subtraction = ({range}: Props) => {
     // verify answer first
     if (inputValue === (firstNumber - secondNumber).toString()) {
       console.log('correct answer');
-      setShowNotification({show: true, message: "correct!", soundEffectPath: correctSoundPath});
+      setShowNotification({show: true, message: "Correct!", soundEffectPath: correctSoundPath});
 
       // set a timeout to reset showNotification after 1 second
       setTimeout(() => {

@@ -1,3 +1,4 @@
+import { Text } from '@chakra-ui/react';
 import  { useEffect } from 'react'
 interface Props2 {
     showNotification: {show: boolean, message: string, soundEffectPath: string };
@@ -18,7 +19,8 @@ const Notification = ({showNotification} : Props2) => {
   }
   return show ? (
     <div>
-        <p>{message}</p>
+        <Text as="i" color={message==="Correct!"? "green.500" : "tomato"}>{message}</Text>
+        {/* <Text as="i" color="tomato">{message}</Text> */}
     </div>
   ) : null;
 };

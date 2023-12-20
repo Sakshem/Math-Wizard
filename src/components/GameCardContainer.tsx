@@ -16,6 +16,8 @@ const GameCardContainer = ({gameMode, range} : Props) => {
       justifyContent="center"
       alignItems="center"
       padding={{base: '1rem', md: '2rem'}}
+      // adjust the marginTop for smaller screens(eq mobile phones)
+      marginTop={{ base: '-20vh', md: 'auto' }}
     >
         <GameCard game={gameMode} range={range}></GameCard>
     </Box>

@@ -34,7 +34,7 @@ const Addition = ({range} : Props) => {
       console.log("correct answer");
       setShowNotification({
         show: true,
-        message: "correct!",
+        message: "Correct!",
         soundEffectPath: correctSoundPath,
       });
 
